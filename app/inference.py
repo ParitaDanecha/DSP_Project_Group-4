@@ -1,9 +1,8 @@
-from pathlib import Path
-
-import joblib
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
-import pickle
 import numpy as np
+
+from pathlib import Path
+import pickle
 
 from preprocessing import preprocessing
 from training import train
@@ -19,12 +18,6 @@ test_filepath = DATA_DIR / 'bigmart_Test-Set.csv'
 def inference(train_filepath, MODELS_DIR):
     df_processed, df_processed_target = preprocessing(train_filepath)
     model, X_test, y_test = train(df_processed, df_processed_target)
-
-    # dumb the model using pickle
-    # pickle_out = open(MODELS_DIR / 'model.pkl', "wb")
-    # pickle.dump(model, pickle_out)
-    # pickle_out.close()
-
 
     with open(MODELS_DIR/'model.pkl', 'wb') as f:
         pickle.dump(object, f)
@@ -42,5 +35,3 @@ def predictions(model, X_test, y_test):
         "mean_squared_error": np.sqrt(mean_squared_error(y_test, y_pred))
     }
     return predictions_dict
-
-inference(train_filepath, MODELS_DIR)
