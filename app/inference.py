@@ -1,37 +1,33 @@
-from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error
-import numpy as np
-
-from pathlib import Path
 import pickle
 
-from preprocessing import preprocessing
-from training import train
+import pandas as pd
 
+from app.preprocessing import preprocessing
 
-ROOT_DIR = Path('../')
-DATA_DIR = ROOT_DIR / 'data/house-prices'
-MODELS_DIR = ROOT_DIR / 'models'
+def inference(filepath, MODELS_DIR):
+    df = pd.read_csv(filepath)
+    if 'OutletSales' in df.columns:
+        y = df.pop('OutletSales')
+    # preprocessing file
+    X = preprocessing(df)
+    # model load
+    with open(MODELS_DIR / 'model.pkl', 'rb') as pickle_file:
+        model = pickle.load(pickle_file)
+    arr = model.predict(X)
+    return arr
 
-train_filepath = DATA_DIR / 'bigmart_Train-Set.csv'
-test_filepath = DATA_DIR / 'bigmart_Test-Set.csv'
-
-def inference(train_filepath, MODELS_DIR):
-    df_processed, df_processed_target = preprocessing(train_filepath)
-    model, X_test, y_test = train(df_processed, df_processed_target)
-
-    with open(MODELS_DIR/'model.pkl', 'wb') as f:
-        pickle.dump(object, f)
-
-    # predictions saved in dictionary
-    predictions_dict = predictions(model, X_test, y_test)
-    print("r2_score: ", predictions_dict["r2_score"], ",", "mean_absolute_error: ", predictions_dict["mean_absolute_error"], ",", "mean_squared_error: ", predictions_dict["mean_squared_error"])
-    return predictions_dict
-
-def predictions(model, X_test, y_test):
-    y_pred = model.predict(X_test)
-    predictions_dict = {
-        "r2_score": r2_score(y_test, y_pred),
-        "mean_absolute_error": mean_absolute_error(y_test, y_pred),
-        "mean_squared_error": np.sqrt(mean_squared_error(y_test, y_pred))
-    }
-    return predictions_dict
+def prediction_on_streamlitdata(formData : dict):
+    df = pd.DataFrame([formData])
+    #print(df)
+    if 'OutletSales' in df.columns:
+        y = df.pop('OutletSales')
+    # preprocessing file
+    X = preprocessing(df)
+    # model load
+    #with open(MODELS_DIR / 'model.pkl', 'rb') as pickle_file:
+    with open('C:/Users/HP/DSP_Project_Group-4/models/model.pkl', 'rb') as pickle_file:
+        model = pickle.load(pickle_file)
+    arr = model.predict(X)
+    
+    arr = arr.tolist()
+    return arr[0]
