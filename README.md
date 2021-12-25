@@ -1,6 +1,4 @@
-# DSP_Project_Group-4
-
-**Sales Price Predictor**
+# Big Mart Sales Price Predictor
 
 Please find below the steps to run the project:
 
@@ -18,7 +16,11 @@ Please find below the steps to run the project:
   - sklearn
 
 3. To run fastapi execute below command,
-- uvicorn api.fastapi:app --reload
+```bash
+uvicorn api.fastapi:app --reload
+```
 
 4. Command to run streamlit app,
-- streamlit run streamlit/app.py 
+```bash
+streamlit run streamlit/app.py 
+```
