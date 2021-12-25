@@ -1,6 +1,6 @@
-#Sales Price Predictor
+**Sales Price Predictor**
 
-**Please find below the steps to run the project:**
+Please find below the steps to run the project:
 
 1. Clone the repository - https://github.com/ParitaDanecha/DSP_Project_Group-4.git
 2. Set up the environment.
