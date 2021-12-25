@@ -15,7 +15,7 @@ Please find below the steps to run the project:
   - psycopg2
   - sklearn
 
-3. To run fastapi execute below command,
+3. Command to run fastapi,
 ```bash
 uvicorn api.fastapi:app --reload
 ```
